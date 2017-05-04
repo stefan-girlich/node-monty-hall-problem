@@ -1,0 +1,20 @@
+{
+
+    "game": {
+        "defaultDoorCount": 3
+    },
+
+    "symbols": {
+        "door": "🚪",
+        "goat": "🐐",
+        "car": "🚗",
+        "player": "🙎"
+    },
+
+    "texts": {
+        "pickFirstDoorQuestion": "",
+        "switchDoorQuestion": "",
+        "wonMessage": "",
+        "lostMessage": ""
+    }
+}
