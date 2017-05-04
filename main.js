@@ -125,24 +125,24 @@ const render = () => {
 
 	let output = ''
 	game.doorStates.forEach((isDoorOpen, index) => {
-		output += getDoorNameFromIndex(index) + ' '
+		output += getDoorNameFromIndex(index) + '\t'
 	})
 
 	output += '\n'
 
 	game.doorStates.forEach((isDoorOpen, index) => {
 		if (!isDoorOpen) {
-			output += '🚪 '
+			output += '🚪\t'
 			return
 		}
 
-		output += (index === game.carPos ? '🚗' : '🐐') + ' '
+		output += (index === game.carPos ? '🚗' : '🐐') + '\t'
 	})
 
 	output += '\n'
 
 	game.doorStates.forEach((isDoorOpen, index) => {
-		output += (index === game.playerPos ? '🙎' : ' ') + ' '
+		output += (index === game.playerPos ? '🙎' : ' ') + '\t'
 	})
 
 	console.log(output)
