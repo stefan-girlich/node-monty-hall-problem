@@ -1,0 +1,22 @@
+{
+  "name": "node-monty-hall-problem",
+  "version": "1.0.0",
+  "description": "Command-line application illustrating the Monty Hall problem",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Stefan Girlich",
+  "license": "ISC",
+  "dependencies": {
+    "readline-sync": "^1.4.7"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "goat",
+    "monty",
+    "hall",
+    "problem",
+    "puzzle"
+  ]
+}
