@@ -12,7 +12,10 @@
   "dependencies": {
     "readline-sync": "^1.4.7"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-google": "^0.8.0"
+  },
   "keywords": [
     "goat",
     "monty",
