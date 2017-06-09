@@ -1,10 +1,10 @@
 const config = require('./config.json')
-const TextIoUtil = require('./text-io-util')
-const Game = require('./game')
-const GameStateRenderer = require('./game-state-renderer')
-const GameResultsTracker = require('./game-results-tracker')
-const GameResultsRenderer = require('./game-results-renderer')
-const DoorRepository = require('./door-repository')
+const TextIoUtil = require('./lib/text-io-util')
+const Game = require('./lib/game')
+const GameStateRenderer = require('./lib/game-state-renderer')
+const GameResultsTracker = require('./lib/game-results-tracker')
+const GameResultsRenderer = require('./lib/game-results-renderer')
+const DoorRepository = require('./lib/door-repository')
 
 
 const doorCount = config.game.defaultDoorCount
