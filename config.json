@@ -15,5 +15,10 @@
         "switchDoorQuestion": "Do you want to switch to door {}?",
         "wonMessage": "You won!!!",
         "lostMessage": "You lost. :("
+    },
+
+    "allowedInput": {
+        "positive": ["yes", "y"],
+        "negative": ["no", "n"]
     }
 }

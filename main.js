@@ -38,9 +38,9 @@ while (true) {
 	let shouldSwitch = null
 	while (shouldSwitch === null) {
 		const switchInput = TextIoUtil.askForInput(TextIoUtil.formatText(config.texts.switchDoorQuestion, freeDoorName) +  `\n`).toLowerCase()
-		if (switchInput === 'yes' || switchInput === 'y') {
+		if (config.allowedInput.positive.includes(switchInput)) {
 			shouldSwitch = true
-		} else if (switchInput === 'no' ||  switchInput === 'n') {
+		} else if (config.allowedInput.negative.includes(switchInput)) {
 			shouldSwitch = false
 		}
 	}
