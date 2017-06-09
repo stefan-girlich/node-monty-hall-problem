@@ -2,23 +2,26 @@
     "game": {
         "defaultDoorCount": 3
     },
-
     "symbols": {
         "door": "🚪",
         "goat": "🐐",
         "car": "🚗",
         "player": "🙎"
     },
-
     "texts": {
         "pickFirstDoorQuestion": "Which is your first door?",
         "switchDoorQuestion": "Do you want to switch to door {}?",
         "wonMessage": "You won!!!",
         "lostMessage": "You lost. :("
     },
-
     "allowedInput": {
-        "positive": ["yes", "y"],
-        "negative": ["no", "n"]
+        "positive": [
+            "yes",
+            "y"
+        ],
+        "negative": [
+            "no",
+            "n"
+        ]
     }
 }
