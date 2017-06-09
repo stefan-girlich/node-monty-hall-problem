@@ -27,6 +27,16 @@ const renderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
 const resultRenderer = new GameResultsRenderer(resultTracker)
 
+const showStatsIfRequested = (userInput) => {
+	const areStatsRequested = config.allowedInput.results.includes(userInput)
+	if (areStatsRequested) {
+		TextIo.nl()
+		resultRenderer.render()
+		renderer.render()
+	}
+
+	return areStatsRequested
+}
 
 const askForInitialDoor = () => {
 	let initialDoorIndex = null
@@ -34,6 +44,9 @@ const askForInitialDoor = () => {
 		const question = texts.pickFirstDoorQuestion
 		const initialDoorName =
 			TextIo.askForInput(question, firstOpts).toUpperCase()
+
+		showStatsIfRequested(initialDoorName)
+
 		try {
 			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
@@ -54,6 +67,9 @@ const askToSwitch = (freeDoorIndex) => {
 		const switchInput =
 			TextIo.askForInput(formattedQuestion, switchDoorInputOpts)
 				.toLowerCase()
+
+		showStatsIfRequested(switchInput)
+
 		if (config.allowedInput.positive.includes(switchInput)) {
 			shouldSwitch = true
 		} else if (config.allowedInput.negative.includes(switchInput)) {
@@ -77,7 +93,5 @@ while (true) {
 	game.selectSwitchOrNot(shouldSwitch)
 
 	resultTracker.trackResult(shouldSwitch)
-	resultRenderer.render()
-
 	game.reset()
 }

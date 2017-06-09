@@ -22,6 +22,9 @@
         "negative": [
             "no",
             "n"
+        ],
+        "results": [
+            "?"
         ]
     }
 }
