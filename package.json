@@ -4,6 +4,7 @@
   "description": "Command-line application illustrating the Monty Hall problem",
   "main": "main.js",
   "scripts": {
+    "start": "node main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Stefan Girlich",
