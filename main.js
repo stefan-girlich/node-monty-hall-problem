@@ -2,6 +2,7 @@ const readlineSync = require('readline-sync')
 const config = require('./config.json')
 const Game = require('./game')
 const GameStateRenderer = require('./game-state-renderer')
+const GameResultTracker = require('./game-result-tracker')
 const DoorRepository = require('./door-repository')
 
 const formatText = (template, params) => {
@@ -29,17 +30,10 @@ if (doorCount < 3) {
 }
 
 const doorsRepo = new DoorRepository(doorCount)
-let renderer
 const game = new Game.Game(doorCount, () => renderer.render() )
-renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
+const renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
+const resultTracker = new GameResultTracker(game)
 
-
-const results = {
-	wonByStaying: 0,
-	wonBySwitching: 0,
-	lostByStaying: 0,
-	lostBySwitching: 0,
-}
 
 while (true) {
 
@@ -72,17 +66,9 @@ while (true) {
 	console.log('\n')
 
 	game.selectSwitchOrNot(shouldSwitch)
+	resultTracker.trackResult(shouldSwitch)
 
-	let resultKey;
-	if (game.state === Game.State.STATE_END_WON) {
-		resultKey = shouldSwitch ? 'wonBySwitching' : 'wonByStaying'
-	} else {
-		resultKey = shouldSwitch ? 'lostBySwitching' : 'lostByStaying'
-	}
-
-	results[resultKey]++
-
-	renderResults(results)
+	renderResults(resultTracker.getAllResults())
 
 	game.reset()
 }
