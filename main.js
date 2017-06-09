@@ -1,18 +1,10 @@
-const readlineSync = require('readline-sync')
 const config = require('./config.json')
+const TextIoUtil = require('./text-io-util')
 const Game = require('./game')
 const GameStateRenderer = require('./game-state-renderer')
 const GameResultsTracker = require('./game-results-tracker')
 const GameResultsRenderer = require('./game-results-renderer')
 const DoorRepository = require('./door-repository')
-
-const formatText = (template, params) => {
-	params = params.forEach ? params : [params]
-	params.forEach((param) => template = template.replace('{}', param))
-	return template
-}
-
-const askForInput = (question) => readlineSync.question(question)
 
 
 const doorCount = config.game.defaultDoorCount
@@ -28,12 +20,11 @@ const resultRenderer = new GameResultsRenderer(resultTracker)
 
 
 while (true) {
-
 	renderer.render()
 
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
-		const initialDoorName = askForInput(config.texts.pickFirstDoorQuestion + '\n').toUpperCase()
+		const initialDoorName = TextIoUtil.askForInput(config.texts.pickFirstDoorQuestion + '\n').toUpperCase()
 		try {
 			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
@@ -44,10 +35,9 @@ while (true) {
 	const freeDoorIndex = game.selectInitialDoor(initialDoorIndex)
 	const freeDoorName = doorsRepo.getDoorNameFromIndex(freeDoorIndex)
 
-
 	let shouldSwitch = null
 	while (shouldSwitch === null) {
-		const switchInput = askForInput(formatText(config.texts.switchDoorQuestion, freeDoorName) +  `\n`).toLowerCase()
+		const switchInput = TextIoUtil.askForInput(TextIoUtil.formatText(config.texts.switchDoorQuestion, freeDoorName) +  `\n`).toLowerCase()
 		if (switchInput === 'yes' || switchInput === 'y') {
 			shouldSwitch = true
 		} else if (switchInput === 'no' ||  switchInput === 'n') {
