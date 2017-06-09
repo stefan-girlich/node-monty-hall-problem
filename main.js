@@ -2,7 +2,7 @@ const readlineSync = require('readline-sync')
 const config = require('./config.json')
 const Game = require('./game')
 const GameStateRenderer = require('./game-state-renderer')
-const GameResultTracker = require('./game-result-tracker')
+const GameResultsTracker = require('./game-results-tracker')
 const DoorRepository = require('./door-repository')
 
 const formatText = (template, params) => {
@@ -32,7 +32,7 @@ if (doorCount < 3) {
 const doorsRepo = new DoorRepository(doorCount)
 const game = new Game.Game(doorCount, () => renderer.render() )
 const renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
-const resultTracker = new GameResultTracker(game)
+const resultTracker = new GameResultsTracker(game)
 
 
 while (true) {

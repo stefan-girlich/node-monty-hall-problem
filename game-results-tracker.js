@@ -1,6 +1,6 @@
 const Game = require('./game')
 
-class GameResultTracker {
+class GameResultsTracker {
 
     constructor(game) {
         this.game = game
@@ -28,4 +28,4 @@ class GameResultTracker {
     }
 }
 
-module.exports = GameResultTracker
+module.exports = GameResultsTracker
