@@ -3,12 +3,16 @@
 const config = require('./config.json')
 const symbols = config.symbols
 const texts = config.texts
+const switchDoorInputOpts = require('./lib/input-options-format')
+	.createInputOptionsString(
+	config.allowedInput.positive, config.allowedInput.negative)
 const TextIoUtil = require('./lib/text-io-util')
 const Game = require('./lib/game')
 const GameStateRenderer = require('./lib/game-state-renderer')
 const GameResultsTracker = require('./lib/game-results-tracker')
 const GameResultsRenderer = require('./lib/game-results-renderer')
 const DoorRepository = require('./lib/door-repository')
+const DoorRepositoryRenderer = require('./lib/door-repository-renderer')
 
 
 const doorCount = config.game.defaultDoorCount
@@ -17,6 +21,7 @@ if (doorCount < 3) {
 }
 
 const doorsRepo = new DoorRepository(doorCount)
+const doorsRepoRenderer = new DoorRepositoryRenderer(doorsRepo)
 const game = new Game.Game(doorCount, () => renderer.render())
 const renderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
@@ -29,7 +34,9 @@ while (true) {
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
 		const question = texts.pickFirstDoorQuestion
-		const initialDoorName = TextIoUtil.askForInput(question).toUpperCase()
+		const options = doorsRepoRenderer.createValidRangeString()
+		const initialDoorName =
+			TextIoUtil.askForInput(question, options).toUpperCase()
 		try {
 			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
@@ -44,7 +51,9 @@ while (true) {
 	while (shouldSwitch === null) {
 		const question = texts.switchDoorQuestion
 		const formattedQuestion = TextIoUtil.formatText(question, freeDoorName)
-		const switchInput = TextIoUtil.askForInput(formattedQuestion).toLowerCase()
+		const switchInput =
+			TextIoUtil.askForInput(formattedQuestion, switchDoorInputOpts)
+				.toLowerCase()
 		if (config.allowedInput.positive.includes(switchInput)) {
 			shouldSwitch = true
 		} else if (config.allowedInput.negative.includes(switchInput)) {
