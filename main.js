@@ -6,7 +6,7 @@ const texts = config.texts
 const switchDoorInputOpts = require('./lib/input-options-format')
 	.createInputOptionsString(
 	config.allowedInput.positive, config.allowedInput.negative)
-const TextIoUtil = require('./lib/text-io-util')
+const TextIo = require('./lib/text-io-util')
 const Game = require('./lib/game')
 const GameStateRenderer = require('./lib/game-state-renderer')
 const GameResultsTracker = require('./lib/game-results-tracker')
@@ -21,38 +21,38 @@ if (doorCount < 3) {
 }
 
 const doorsRepo = new DoorRepository(doorCount)
-const doorsRepoRenderer = new DoorRepositoryRenderer(doorsRepo)
+const firstOpts = new DoorRepositoryRenderer(doorsRepo).createValidRangeString()
 const game = new Game.Game(doorCount, () => renderer.render())
 const renderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
 const resultRenderer = new GameResultsRenderer(resultTracker)
 
 
-while (true) {
-	renderer.render()
-
+const askForInitialDoor = () => {
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
 		const question = texts.pickFirstDoorQuestion
-		const options = doorsRepoRenderer.createValidRangeString()
 		const initialDoorName =
-			TextIoUtil.askForInput(question, options).toUpperCase()
+			TextIo.askForInput(question, firstOpts).toUpperCase()
 		try {
 			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
 	}
 
-	console.log('\n')
+	TextIo.nl()
 
-	const freeDoorIndex = game.selectInitialDoor(initialDoorIndex)
+	return initialDoorIndex
+}
+
+const askToSwitch = (freeDoorIndex) => {
 	const freeDoorName = doorsRepo.getDoorNameFromIndex(freeDoorIndex)
 
 	let shouldSwitch = null
 	while (shouldSwitch === null) {
 		const question = texts.switchDoorQuestion
-		const formattedQuestion = TextIoUtil.formatText(question, freeDoorName)
+		const formattedQuestion = TextIo.formatText(question, freeDoorName)
 		const switchInput =
-			TextIoUtil.askForInput(formattedQuestion, switchDoorInputOpts)
+			TextIo.askForInput(formattedQuestion, switchDoorInputOpts)
 				.toLowerCase()
 		if (config.allowedInput.positive.includes(switchInput)) {
 			shouldSwitch = true
@@ -61,11 +61,22 @@ while (true) {
 		}
 	}
 
-	console.log('\n')
+	TextIo.nl()
 
+	return shouldSwitch
+}
+
+
+while (true) {
+	renderer.render()
+
+	const initialDoorIndex = askForInitialDoor()
+	const freeDoorIndex = game.selectInitialDoor(initialDoorIndex)
+
+	const shouldSwitch = askToSwitch(freeDoorIndex)
 	game.selectSwitchOrNot(shouldSwitch)
-	resultTracker.trackResult(shouldSwitch)
 
+	resultTracker.trackResult(shouldSwitch)
 	resultRenderer.render()
 
 	game.reset()
