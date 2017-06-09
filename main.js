@@ -1,4 +1,8 @@
+'use strict'
+
 const config = require('./config.json')
+const symbols = config.symbols
+const texts = texts
 const TextIoUtil = require('./lib/text-io-util')
 const Game = require('./lib/game')
 const GameStateRenderer = require('./lib/game-state-renderer')
@@ -13,8 +17,8 @@ if (doorCount < 3) {
 }
 
 const doorsRepo = new DoorRepository(doorCount)
-const game = new Game.Game(doorCount, () => renderer.render() )
-const renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
+const game = new Game.Game(doorCount, () => renderer.render())
+const renderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
 const resultRenderer = new GameResultsRenderer(resultTracker)
 
@@ -24,7 +28,8 @@ while (true) {
 
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
-		const initialDoorName = TextIoUtil.askForInput(config.texts.pickFirstDoorQuestion).toUpperCase()
+		const question = texts.pickFirstDoorQuestion
+		const initialDoorName = TextIoUtil.askForInput(question).toUpperCase()
 		try {
 			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
@@ -37,7 +42,9 @@ while (true) {
 
 	let shouldSwitch = null
 	while (shouldSwitch === null) {
-		const switchInput = TextIoUtil.askForInput(TextIoUtil.formatText(config.texts.switchDoorQuestion, freeDoorName)).toLowerCase()
+		const question = texts.switchDoorQuestion
+		const formattedQuestion = TextIoUtil.formatText(question, freeDoorName)
+		const switchInput = TextIoUtil.askForInput(formattedQuestion).toLowerCase()
 		if (config.allowedInput.positive.includes(switchInput)) {
 			shouldSwitch = true
 		} else if (config.allowedInput.negative.includes(switchInput)) {
