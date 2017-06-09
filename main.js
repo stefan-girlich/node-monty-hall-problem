@@ -132,17 +132,17 @@ const render = () => {
 
 	game.doorStates.forEach((isDoorOpen, index) => {
 		if (!isDoorOpen) {
-			output += '🚪\t'
+			output += config.symbols.door + '\t'
 			return
 		}
 
-		output += (index === game.carPos ? '🚗' : '🐐') + '\t'
+		output += (index === game.carPos ? config.symbols.car : config.symbols.goat) + '\t'
 	})
 
 	output += '\n'
 
 	game.doorStates.forEach((isDoorOpen, index) => {
-		output += (index === game.playerPos ? '🙎' : ' ') + '\t'
+		output += (index === game.playerPos ? config.symbols.player : ' ') + '\t'
 	})
 
 	console.log(output)
@@ -169,14 +169,8 @@ const renderResults = (data) => {
 
 // main
 
-const args = process.argv
-if (args.length !== 3) {
-	throw Error('Please provide the number of doors as the only argument.')
-}
-
-
-const doorCount = parseInt(args[2])
-if (isNaN(doorCount) || doorCount < 3) {
+const doorCount = config.game.defaultDoorCount
+if (doorCount < 3) {
 	throw Error('Please provide a number of doors which is at least 3.')
 }
 
