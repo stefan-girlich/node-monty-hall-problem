@@ -3,6 +3,7 @@ const config = require('./config.json')
 const Game = require('./game')
 const GameStateRenderer = require('./game-state-renderer')
 const GameResultsTracker = require('./game-results-tracker')
+const GameResultsRenderer = require('./game-results-renderer')
 const DoorRepository = require('./door-repository')
 
 const formatText = (template, params) => {
@@ -13,16 +14,6 @@ const formatText = (template, params) => {
 
 const askForInput = (question) => readlineSync.question(question)
 
-const renderResults = (data) => {
-	console.log('-------------------------------------')
-	Object.keys(data).forEach((key) => {
-		console.log(key + '\t\t' + data[key])
-	})
-	console.log('-------------------------------------\n\n')
-}
-
-
-// main
 
 const doorCount = config.game.defaultDoorCount
 if (doorCount < 3) {
@@ -33,6 +24,7 @@ const doorsRepo = new DoorRepository(doorCount)
 const game = new Game.Game(doorCount, () => renderer.render() )
 const renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
 const resultTracker = new GameResultsTracker(game)
+const resultRenderer = new GameResultsRenderer(resultTracker)
 
 
 while (true) {
@@ -68,7 +60,7 @@ while (true) {
 	game.selectSwitchOrNot(shouldSwitch)
 	resultTracker.trackResult(shouldSwitch)
 
-	renderResults(resultTracker.getAllResults())
+	resultRenderer.render()
 
 	game.reset()
 }
