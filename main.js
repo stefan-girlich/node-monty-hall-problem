@@ -2,7 +2,7 @@
 
 const config = require('./config.json')
 const symbols = config.symbols
-const texts = texts
+const texts = config.texts
 const TextIoUtil = require('./lib/text-io-util')
 const Game = require('./lib/game')
 const GameStateRenderer = require('./lib/game-state-renderer')
