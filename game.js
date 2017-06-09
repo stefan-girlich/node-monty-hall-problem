@@ -8,8 +8,6 @@ const createInitialDoorStates = (count) => {
 }
 
 
-
-
 const State = {
     STATE_START: 0,
     STATE_QUESTION: 1,

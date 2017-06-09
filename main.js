@@ -1,6 +1,8 @@
 const readlineSync = require('readline-sync')
 const config = require('./config.json')
 const Game = require('./game')
+const GameStateRenderer = require('./game-state-renderer')
+const DoorRepository = require('./door-repository')
 
 const formatText = (template, params) => {
 	params = params.forEach ? params : [params]
@@ -8,78 +10,7 @@ const formatText = (template, params) => {
 	return template
 }
 
-const createDoorNameMap = (count) => {
-	const doorNamesToIndices = {}
-	for (let i = 0; i < count; i++) {
-		//const key = String.fromCharCode(97 + i).toUpperCase() 	// for letters
-		const key = '' + (i + 1)
-		doorNamesToIndices[key] = i
-	}
-
-	return doorNamesToIndices
-}
-
-
-
-const getDoorIndexFromName = (name) => {
-	if (!(name in doorNamesToIndices)) {
-		throw new Error('Door not known with name: ' + name)
-	}
-	return doorNamesToIndices[name]
-}
-
-const getDoorNameFromIndex = (index) => {
-	const singleDoorName = Object.keys(doorNamesToIndices).filter((key) => doorNamesToIndices[key] === index)
-	if (singleDoorName.length === 0) {
-		throw new Error('No door name found for index ' + index)
-	}
-
-	return singleDoorName[0]
-}
-
-
-
-
-
-
 const askForInput = (question) => readlineSync.question(question)
-
-const render = () => {
-	//	process.stdout.write('\033c');
-
-	let output = ''
-	game.doorStates.forEach((isDoorOpen, index) => {
-		output += getDoorNameFromIndex(index) + '\t'
-	})
-
-	output += '\n'
-
-	game.doorStates.forEach((isDoorOpen, index) => {
-		if (!isDoorOpen) {
-			output += config.symbols.door + '\t'
-			return
-		}
-
-		output += (index === game.carPos ? config.symbols.car : config.symbols.goat) + '\t'
-	})
-
-	output += '\n'
-
-	game.doorStates.forEach((isDoorOpen, index) => {
-		output += (index === game.playerPos ? config.symbols.player : ' ') + '\t'
-	})
-
-	console.log(output)
-	console.log('\n')
-
-	if (game.state === Game.State.STATE_END_WON) {
-		console.log(config.texts.wonMessage)
-	} else if (game.state === Game.State.STATE_END_LOST) {
-		console.log(config.texts.lostMessage)
-	}
-
-	console.log('\n')
-}
 
 const renderResults = (data) => {
 	console.log('-------------------------------------')
@@ -90,8 +21,6 @@ const renderResults = (data) => {
 }
 
 
-
-
 // main
 
 const doorCount = config.game.defaultDoorCount
@@ -99,8 +28,10 @@ if (doorCount < 3) {
 	throw Error('Please provide a number of doors which is at least 3.')
 }
 
-const doorNamesToIndices = createDoorNameMap(doorCount)
-const game = new Game.Game(doorCount, render)
+const doorsRepo = new DoorRepository(doorCount)
+let renderer
+const game = new Game.Game(doorCount, () => renderer.render() )
+renderer = new GameStateRenderer(game, doorsRepo, config.symbols, config.texts)
 
 
 const results = {
@@ -112,20 +43,20 @@ const results = {
 
 while (true) {
 
-	render()
+	renderer.render()
 
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
 		const initialDoorName = askForInput(config.texts.pickFirstDoorQuestion + '\n').toUpperCase()
 		try {
-			initialDoorIndex = getDoorIndexFromName(initialDoorName)
+			initialDoorIndex = doorsRepo.getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
 	}
 
 	console.log('\n')
 
 	const freeDoorIndex = game.selectInitialDoor(initialDoorIndex)
-	const freeDoorName = getDoorNameFromIndex(freeDoorIndex)
+	const freeDoorName = doorsRepo.getDoorNameFromIndex(freeDoorIndex)
 
 
 	let shouldSwitch = null
