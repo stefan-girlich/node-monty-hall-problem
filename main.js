@@ -146,11 +146,12 @@ const render = () => {
 	})
 
 	console.log(output)
+	console.log('\n')
 
 	if (game.state === STATE_END_WON) {
-		console.log('\nYou won!!!')
+		console.log(config.texts.wonMessage)
 	} else if (game.state === STATE_END_LOST) {
-		console.log('\nYou lost. :(')
+		console.log(config.texts.lostMessage)
 	}
 
 	console.log('\n')
@@ -191,7 +192,7 @@ while (true) {
 
 	let initialDoorIndex = null
 	while (initialDoorIndex === null) {
-		const initialDoorName = askForInput('Which is your first door?\n').toUpperCase()
+		const initialDoorName = askForInput(config.texts.pickFirstDoorQuestion + '\n').toUpperCase()
 		try {
 			initialDoorIndex = getDoorIndexFromName(initialDoorName)
 		} catch (e) { }
@@ -205,7 +206,7 @@ while (true) {
 
 	let shouldSwitch = null
 	while (shouldSwitch === null) {
-		const switchInput = askForInput(`Do you want to switch to door ${freeDoorName}?\n`).toLowerCase()
+		const switchInput = askForInput(formatText(config.texts.switchDoorQuestion, freeDoorName) +  `\n`).toLowerCase()
 		if (switchInput === 'yes' || switchInput === 'y') {
 			shouldSwitch = true
 		} else if (switchInput === 'no' ||  switchInput === 'n') {

@@ -11,9 +11,9 @@
     },
 
     "texts": {
-        "pickFirstDoorQuestion": "",
-        "switchDoorQuestion": "",
-        "wonMessage": "",
-        "lostMessage": ""
+        "pickFirstDoorQuestion": "Which is your first door?",
+        "switchDoorQuestion": "Do you want to switch to door {}?",
+        "wonMessage": "You won!!!",
+        "lostMessage": "You lost. :("
     }
 }
