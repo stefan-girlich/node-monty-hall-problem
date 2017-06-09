@@ -1,16 +1,22 @@
 const readlineSync = require('readline-sync')
+const config = require('./config.json')
+
+const formatText = (template, params) => {
+	params = params.forEach ? params : [params]
+	params.forEach((param) => template = template.replace('{}', param))
+	return template
+}
 
 const createDoorNameMap = (count) => {
 	const doorNamesToIndices = {}
 	for (let i = 0; i < count; i++) {
-		const key = String.fromCharCode(97 + i).toUpperCase() 	// for letters
-		//const key = '' + (i + 1)
+		//const key = String.fromCharCode(97 + i).toUpperCase() 	// for letters
+		const key = '' + (i + 1)
 		doorNamesToIndices[key] = i
 	}
 
 	return doorNamesToIndices
 }
-
 
 const createInitialDoorStates = (count) => {
 	const result = []
