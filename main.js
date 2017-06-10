@@ -19,7 +19,7 @@ const DoorRepository = require('./lib/door-repository')
 const DoorRepositoryRenderer = require('./lib/door-repository-renderer')
 
 
-const doorCount = config.game.defaultDoorCount
+const doorCount = config.game.doorCount
 if (doorCount < 3) {
 	throw Error('Please provide a number of doors which is at least 3.')
 }
