@@ -60,7 +60,7 @@ const askForInitialDoor = () => {
 		} catch (e) { }
 	}
 
-	TextIo.dnl()
+	TextIo.nl()
 
 	return initialDoorIndex
 }
@@ -72,9 +72,7 @@ const askToSwitch = (freeDoorIndex) => {
 	while (shouldSwitch === null) {
 		const question = texts.switchDoorQuestion
 		const formattedQuestion = TextIo.formatText(question, freeDoorName)
-		const switchInput =
-			TextIo.askForInput(formattedQuestion, switchDoorInputOpts)
-				.toLowerCase()
+		const switchInput = TextIo.askForInput(formattedQuestion, switchDoorInputOpts).toLowerCase()
 
 		showStatsIfRequested(switchInput)
 
@@ -85,7 +83,7 @@ const askToSwitch = (freeDoorIndex) => {
 		}
 	}
 
-	TextIo.dnl()
+	TextIo.nl()
 
 	return shouldSwitch
 }
