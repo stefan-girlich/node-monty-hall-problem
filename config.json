@@ -12,7 +12,14 @@
         "pickFirstDoorQuestion": "Which is your first door?",
         "switchDoorQuestion": "Do you want to switch to door {}?",
         "wonMessage": "You won!!!",
-        "lostMessage": "You lost. :("
+        "lostMessage": "You lost. :(",
+        "intro": {
+            "headline": "WELCOME TO THE SHOW!",
+            "paragraph": "This is an implementation of the Monty Hall problem. Play as many rounds as you want and remember that you can enter \"?\" at any time to have a look at the statistics. If you are not sure what this is all about, check out the Wikipedia article: https://en.wikipedia.org/wiki/Monty_Hall_problem .\nIf you are already familiar with the topic, you may have a look at config.json for even more doors and goats.",
+            "authorLabel": "Author:",
+            "websiteLabel": "Website:",
+            "newRoundHeader": "New round"
+        }
     },
     "allowedInput": {
         "positive": [

@@ -1,12 +1,14 @@
 'use strict'
 
 const config = require('./config.json')
+const packageInfo = require('./package.json')
 const symbols = config.symbols
 const texts = config.texts
 const switchDoorInputOpts = require('./lib/input-options-format')
-	.createInputOptionsString(
-	config.allowedInput.positive, config.allowedInput.negative)
+	.createInputOptionsString(config.allowedInput.positive, config.allowedInput.negative)
+
 const TextIo = require('./lib/text-io-util')
+const IntroRenderer = require('./lib/intro-renderer')
 const Game = require('./lib/game')
 const GameStateRenderer = require('./lib/game-state-renderer')
 const GameResultsTracker = require('./lib/game-results-tracker')
@@ -22,17 +24,21 @@ if (doorCount < 3) {
 
 const doorsRepo = new DoorRepository(doorCount)
 const firstOpts = new DoorRepositoryRenderer(doorsRepo).createValidRangeString()
-const game = new Game.Game(doorCount, () => renderer.render())
-const renderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
+const game = new Game.Game(doorCount, () => {
+	introRenderer.renderStageDivider()
+	gameRenderer.render()
+})
+const gameRenderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
 const resultRenderer = new GameResultsRenderer(resultTracker)
+const introRenderer = new IntroRenderer(config.texts.intro, config.symbols, packageInfo)
 
 const showStatsIfRequested = (userInput) => {
 	const areStatsRequested = config.allowedInput.results.includes(userInput)
 	if (areStatsRequested) {
-		TextIo.nl()
+		TextIo.dnl()
 		resultRenderer.render()
-		renderer.render()
+		gameRenderer.render()
 	}
 
 	return areStatsRequested
@@ -52,7 +58,7 @@ const askForInitialDoor = () => {
 		} catch (e) { }
 	}
 
-	TextIo.nl()
+	TextIo.dnl()
 
 	return initialDoorIndex
 }
@@ -77,14 +83,17 @@ const askToSwitch = (freeDoorIndex) => {
 		}
 	}
 
-	TextIo.nl()
+	TextIo.dnl()
 
 	return shouldSwitch
 }
 
 
+introRenderer.renderIntro()
+
 while (true) {
-	renderer.render()
+	introRenderer.renderGameHeader()
+	gameRenderer.render()
 
 	const initialDoorIndex = askForInitialDoor()
 	const freeDoorIndex = game.selectInitialDoor(initialDoorIndex)
