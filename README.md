@@ -1,5 +1,8 @@
 # node-monty-hall-problem
 
+<img src="screenshot.png" />
+
+
 This little Node.js application brings the <a href="https://en.wikipedia.org/wiki/Monty_Hall_problem">Monty Hall problem</a> to your shell as an interactive game; retro swag is provided by emoji and ANSI colors. You can play as many rounds of the game as you like and check the statistics at any time.
 
 
@@ -42,3 +45,4 @@ On-screen texts.
 
 #### allowedInput
 Mapping of user input to multiple-choice answers in the command line prompt.
+
