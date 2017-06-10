@@ -19,6 +19,14 @@
             "authorLabel": "Author:",
             "websiteLabel": "Website:",
             "newRoundHeader": "New round"
+        },
+        "gameResults": {
+            "title": "Game results",
+            "wonByStaying": "Games won by staying",
+            "wonBySwitching": "Games won by switching",
+            "lostByStaying": "Games lost by staying",
+            "lostBySwitching": "Games lost by switching",
+            "total": "Total games"
         }
     },
     "allowedInput": {

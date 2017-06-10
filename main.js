@@ -30,7 +30,7 @@ const game = new Game.Game(doorCount, () => {
 })
 const gameRenderer = new GameStateRenderer(game, doorsRepo, symbols, texts)
 const resultTracker = new GameResultsTracker(game)
-const resultRenderer = new GameResultsRenderer(resultTracker)
+const resultRenderer = new GameResultsRenderer(resultTracker, config.texts.gameResults)
 const introRenderer = new IntroRenderer(config.texts.intro, config.symbols, packageInfo)
 
 const showStatsIfRequested = (userInput) => {
