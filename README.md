@@ -39,7 +39,7 @@ How long should the game be paused between rounds? (seconds)
 Configuration for the actual game logic.
 
 * **doorCount**
-How many doors should in the game? (min. 3)
+How many doors should be in the game? (min. 3)
 
 
 #### symbols
