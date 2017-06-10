@@ -46,3 +46,7 @@ On-screen texts.
 #### allowedInput
 Mapping of user input to multiple-choice answers in the command line prompt.
 
+
+## Thanks
+
+Thanks to Hsin Yu for inspiring me to write this little application :)
