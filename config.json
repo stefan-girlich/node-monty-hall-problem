@@ -2,6 +2,7 @@
     "game": {
         "defaultDoorCount": 3
     },
+    "breakDuration": 2,
     "symbols": {
         "door": "🚪",
         "goat": "🐐",

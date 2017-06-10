@@ -1,5 +1,7 @@
 'use strict'
 
+const sleep = require('sleep')
+
 const config = require('./config.json')
 const packageInfo = require('./package.json')
 const symbols = config.symbols
@@ -102,5 +104,8 @@ while (true) {
 	game.selectSwitchOrNot(shouldSwitch)
 
 	resultTracker.trackResult(shouldSwitch)
+
+	sleep.sleep(config.breakDuration)
+
 	game.reset()
 }
