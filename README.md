@@ -20,6 +20,11 @@ npm test	# execute all unit tests
 npm start	# start the actual game
 ```
 
+* Simply following the on-screen instructions.
+* For each prompt, type one of the given options and confirm by pressing _Enter_.
+* At any prompt, enter _?_ to view the current statistics.
+* To leave the application, simply terminate is by pressing _Ctrl+C_ or _Cmd+C_.
+
 
 ## Configuration
 
