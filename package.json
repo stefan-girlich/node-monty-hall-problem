@@ -20,7 +20,7 @@
     "wordwrap": "^1.0.0"
   },
   "devDependencies": {
-    "eslint": "^3.19.0",
+    "eslint": "^6.5.1",
     "eslint-config-google": "^0.8.0",
     "mocha": "^3.4.2"
   },
